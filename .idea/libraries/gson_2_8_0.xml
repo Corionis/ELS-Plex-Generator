@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="gson-2.8.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/gson-2.8.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/log4j-api-2.8.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/log4j-core-2.8.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpclient5-5.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpcore5-5.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.7.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-jdk14-1.7.25.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
