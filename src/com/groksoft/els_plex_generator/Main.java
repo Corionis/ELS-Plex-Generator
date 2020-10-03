@@ -60,9 +60,6 @@ public class Main
         //String val = getIpAddresses();
         String json = "\t\t\"host\": \"" + hostname + ":50271\"," + lineSep;
 
-        // generate flavor
-        json += "\t\t\"flavor\": \"" + flavor + "\"," + lineSep;
-
         // add terminal_allowed
         json += "\t\t\"terminal_allowed\": \"true\"," + lineSep;
 
@@ -138,8 +135,7 @@ public class Main
     private String parseInformation(String filename) throws Exception
     {
         String description = "";
-        String json = "{" + lineSep +
-                "\t\"libraries\": {" + lineSep;
+        String platform = "";
 
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -162,13 +158,28 @@ public class Main
                             if (name.equalsIgnoreCase("friendlyName"))
                             {
                                 description = attrs.item(j).getNodeValue();
-                                json += "\t\t\"description\": \"" + description + "\"," + lineSep;
+                            }
+                            if (name.equalsIgnoreCase("platform"))
+                            {
+                                platform = attrs.item(j).getNodeValue();
                             }
                         }
                     }
                 }
             }
         }
+
+        lineSep = Utils.getLineSeparator(platform);
+        flavor = platform.toLowerCase();
+
+        String json = "{" + lineSep +
+                "\t\"libraries\": {" + lineSep;
+
+        json += "\t\t\"description\": \"" + description + "\"," + lineSep;
+
+        json += "\t\t\"flavor\": \"" + platform.toLowerCase() + "\"," + lineSep;
+
+
         logger.info("Plex Media Server: " + description);
         return json;
     }
@@ -298,8 +309,8 @@ public class Main
 
         try
         {
-            flavor = getFlavor();
-            lineSep = System.getProperty("line.separator");
+//            flavor = getFlavor();
+//            lineSep = System.getProperty("line.separator");
             
             // get basic server capabilities XML
             String request = host + "?X-Plex-Token=" + xPlexToken;

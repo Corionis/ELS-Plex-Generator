@@ -188,6 +188,35 @@ public class Utils
     }
 
     /**
+     * Get the line separator for the flavor of operating system
+     *
+     * @param flavor
+     * @return String containing matching line separator string
+     * @throws MungerException
+     */
+    public static String getLineSeparator(String flavor) throws MungerException
+    {
+        String separator;
+        if (flavor.equalsIgnoreCase(WINDOWS))
+        {
+            separator = "\r\n";
+        }
+        else if (flavor.equalsIgnoreCase(LINUX))
+        {
+            separator = "\n";
+        }
+        else if (flavor.equalsIgnoreCase(APPLE))
+        {
+            separator = "\n";
+        }
+        else
+        {
+            throw new MungerException("unknown flavor '" + flavor + "'");
+        }
+        return separator;
+    }
+
+    /**
      * Gets last path
      *
      * @param full the full
