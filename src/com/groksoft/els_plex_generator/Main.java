@@ -1,5 +1,6 @@
 package com.groksoft.els_plex_generator;
 
+import com.groksoft.els_plex_generator.repository.Repository;
 import org.apache.hc.client5.http.ClientProtocolException;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -30,10 +31,12 @@ import java.util.UUID;
  */
 public class Main
 {
-    private Logger logger = null;
+    private Configuration cfg = null;
     private String flavor = "";
     private String hostname = "";
     private String lineSep = "";
+    private Logger logger = null;
+    private Repository repo = null;
 
     /**
      * Instantiates the Main application
@@ -56,27 +59,91 @@ public class Main
 
     private String generateLocal() throws Exception
     {
+        String value = "";
+
         // generate host element
-        //String val = getIpAddresses();
-        String json = "\t\t\"host\": \"" + hostname + ":50271\"," + lineSep;
+        if (repo != null && repo.getLibraryData().libraries.host != null)
+            value = repo.getLibraryData().libraries.host;
+        else
+            value = hostname + ":50271";
+        String json = "\t\t\"host\": \"" + value + "\"," + lineSep;
+
+        // handle listen element if present
+        if (repo != null && repo.getLibraryData().libraries.listen != null)
+        {
+            // don't add listen if it's the same as host
+            if (!repo.getLibraryData().libraries.listen.equalsIgnoreCase(value))
+            {
+                value = repo.getLibraryData().libraries.listen;
+                json += "\t\t\"listen\": \"" + value + "\"," + lineSep;
+            }
+        }
 
         // add terminal_allowed
-        json += "\t\t\"terminal_allowed\": \"true\"," + lineSep;
+        if (repo != null && repo.getLibraryData().libraries.terminal_allowed != null)
+            value = repo.getLibraryData().libraries.terminal_allowed;
+        else
+            value = "true";
+        json += "\t\t\"terminal_allowed\": \"" + value + "\"," + lineSep;
 
         // add key
-        UUID uuid = UUID.randomUUID();
-        json += "\t\t\"key\": \"" + uuid + "\"," + lineSep;
+        if (repo != null && repo.getLibraryData().libraries.key != null)
+            value = repo.getLibraryData().libraries.key;
+        else
+        {
+            UUID uuid = UUID.randomUUID();
+            value = uuid.toString();
+        }
+        json += "\t\t\"key\": \"" + value + "\"," + lineSep;
 
         // add case_sensitive
-        json += "\t\t\"case_sensitive\": \"" + (isCaseSensitive(flavor) ? "true" : "false") + "\"," + lineSep;
+        if (repo != null && repo.getLibraryData().libraries.case_sensitive != null)
+            value = (repo.getLibraryData().libraries.case_sensitive) ? "true" : "false";
+        else
+            value = (isCaseSensitive(flavor) ? "true" : "false");
+        json += "\t\t\"case_sensitive\": \"" + value + "\"," + lineSep;
 
         // add ignore_patterns
-        json += "\t\t\"ignore_patterns\": [" + lineSep +
-                "\t\t\t\"desktop.ini\"," + lineSep +
-                "\t\t\t\"Thumbs.db\"" + lineSep +
-                "\t\t]," + lineSep;
+        if (repo != null && repo.getLibraryData().libraries.ignore_patterns != null && repo.getLibraryData().libraries.ignore_patterns.length > 0)
+        {
+            json += "\t\t\"ignore_patterns\": [" + lineSep;
+            int c = 0;
+            for (String patt : repo.getLibraryData().libraries.ignore_patterns)
+            {
+                if (c > 0)
+                    json += "," + lineSep;
+                json += "\t\t\t\"" + patt + "\"";
+                ++c;
+            }
+            json += lineSep + "\t\t]," + lineSep;
+        }
+        else
+        {
+            json += "\t\t\"ignore_patterns\": [" + lineSep +
+                    "\t\t\t\"desktop.ini\"," + lineSep +
+                    "\t\t\t\"Thumbs.db\"" + lineSep +
+                    "\t\t]," + lineSep;
+        }
 
         return json;
+    }
+
+    private String getFlavor(String os)
+    {
+        String flavor;
+        if (os.toLowerCase().contains("windows"))
+        {
+            flavor = Utils.WINDOWS;
+        }
+        else if (os.toLowerCase().contains("mac") || os.toLowerCase().contains("os x"))
+        {
+            flavor = Utils.APPLE;
+        }
+        else
+        {
+            flavor = Utils.LINUX;
+        }
+        return flavor;
     }
 
     private String getIpAddresses() throws Exception
@@ -107,29 +174,10 @@ public class Main
         }
         return localIp;
     }
-    
-    private String getFlavor()
-    {
-        String flavor;
-        String os = System.getProperty("os.name");
-        if (os.toLowerCase().contains("windows"))
-        {
-            flavor = "windows";
-        }
-        else if (os.toLowerCase().contains("mac") || os.toLowerCase().contains("os x"))
-        {
-            flavor = "apple";
-        }
-        else
-        {
-            flavor = "linux";
-        }
-        return flavor;
-    }
-    
+
     private boolean isCaseSensitive(String flavor)
     {
-        return flavor.equalsIgnoreCase("windows");
+        return !flavor.equalsIgnoreCase("windows");
     }
 
     private String parseInformation(String filename) throws Exception
@@ -157,7 +205,10 @@ public class Main
                             String name = attrs.item(j).getNodeName();
                             if (name.equalsIgnoreCase("friendlyName"))
                             {
-                                description = attrs.item(j).getNodeValue();
+                                if (repo != null && repo.getLibraryData().libraries.description != null)
+                                    description = repo.getLibraryData().libraries.description;
+                                else
+                                    description = attrs.item(j).getNodeValue();
                             }
                             if (name.equalsIgnoreCase("platform"))
                             {
@@ -169,16 +220,15 @@ public class Main
             }
         }
 
-        lineSep = Utils.getLineSeparator(platform);
-        flavor = platform.toLowerCase();
+        flavor = getFlavor(platform);
+        lineSep = Utils.getLineSeparator(flavor);
 
         String json = "{" + lineSep +
                 "\t\"libraries\": {" + lineSep;
 
         json += "\t\t\"description\": \"" + description + "\"," + lineSep;
 
-        json += "\t\t\"flavor\": \"" + platform.toLowerCase() + "\"," + lineSep;
-
+        json += "\t\t\"flavor\": \"" + flavor + "\"," + lineSep;
 
         logger.info("Plex Media Server: " + description);
         return json;
@@ -269,12 +319,24 @@ public class Main
     {
         int returnValue = 0;
 
+        cfg = new Configuration();
+
+        if (args.length < 3)
+        {
+            System.out.println("Error: Arguments missing");
+            System.out.println("");
+            cfg.help();
+            return 1;
+        }
+
         try
         {
+            cfg.parseCommandLine(args);
+
             // setup the logger based on configuration
-            System.setProperty("logFilename", "ELS-Plex-Generator.log");
-            System.setProperty("consoleLevel", "DEBUG");
-            System.setProperty("debugLevel", "DEBUG");
+            System.setProperty("logFilename", cfg.getLogFilename());
+            System.setProperty("consoleLevel", cfg.getConsoleLevel());
+            System.setProperty("debugLevel", cfg.getDebugLevel());
             //System.setProperty("pattern", cfg.getPattern());
             org.apache.logging.log4j.core.LoggerContext ctx = (org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false);
             ctx.reconfigure();
@@ -282,36 +344,29 @@ public class Main
             // get the named logger
             logger = LogManager.getLogger("applog");
         }
-        catch (Exception ignored)
+        catch (Exception e)
         {
-        }
-
-        logger.info("ELS-Plex-Generator, version 1.00");
-
-        if (args.length != 3)
-        {
-            logger.info("Error: Arguments missing");
-            logger.info("Required arguments:");
-            logger.info("  1. Plex Media Server hostname or IP address[:]port");
-            logger.info("  2. X-Plex-Token");
-            logger.info("  3. Output filename");
-            logger.info("Runtime example: ");
-            logger.info("  java -jar ELS-Plex-Generator.jar 192.168.1.4:32400 publisher.json");
-            logger.info("For the X-Plex-Token see https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/");
+            System.out.println(e.getMessage());
             return 1;
         }
 
-        String connectString = args[0];
-        String xPlexToken = args[1];
-        String outputFilename = args[2];
+        logger.info(cfg.banner());
+        cfg.dump(logger);
+
+        String connectString = cfg.getServer();
+        String xPlexToken = cfg.getToken();
+        String outputFilename = cfg.getOutputFilename();
+
         String host = "http://" + connectString;
         hostname = Utils.parseHost(connectString);
 
         try
         {
-//            flavor = getFlavor();
-//            lineSep = System.getProperty("line.separator");
-            
+            if (cfg.getInputFilename().length() > 0)
+            {
+                readRepo(cfg.getInputFilename());
+            }
+
             // get basic server capabilities XML
             String request = host + "?X-Plex-Token=" + xPlexToken;
             String responseBody = roundTrip(request);
@@ -347,6 +402,13 @@ public class Main
 
         return returnValue;
     } // process
+
+    private void readRepo(String filename) throws Exception
+    {
+        repo = new Repository(cfg);
+        repo.read(filename);
+
+    }
 
     private String roundTrip(String request)
     {

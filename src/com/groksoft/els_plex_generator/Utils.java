@@ -1,5 +1,6 @@
 package com.groksoft.els_plex_generator;
 
+import com.groksoft.els_plex_generator.repository.Repository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -372,6 +373,20 @@ public class Utils
             port = a[1];
         }
         return port;
+    }
+
+    /**
+     * Replace source path separators with pipe character for comparison
+     *
+     * @param repo Repository of source of path
+     * @param path Path to modify with pipe characters
+     * @return String Modified path
+     * @throws MungerException
+     */
+    public static String pipe(Repository repo, String path) throws MungerException
+    {
+        String p = path.replaceAll(repo.getWriteSeparator(), "|");
+        return p;
     }
 
     /**
