@@ -1,6 +1,7 @@
 ELS-Plex-Generator is an add-on tool for Entertainment Library Synchronizer (ELS),
 available at [https://github.com/GrokSoft/ELS](https://github.com/GrokSoft/ELS), that generates the publisher library
-JSON file required for ELS.
+JSON file required for ELS by querying a Plex Media Server for metadata and library source
+definitions.
 
 ## Command Line Options
 ELS-Plex-Generator requires 3 arguments.
@@ -22,9 +23,9 @@ ELS-Plex-Generator requires 3 arguments.
 ```             
 
 ### Notes
-For the X-Plex-Token see [Finding an authentication token / X-Plex-Token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/).
+ 1. For the X-Plex-Token see [Finding an authentication token / X-Plex-Token](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/).
 
-If a -i input filename is specified it must be an ELS publisher file in JSON format. When an
+ 2. If a -i input filename is specified it must be an ELS publisher file in JSON format. When an
 input filename is used certain values are copied to the output file. Those are:
  * description, default Plex Media Server name
  * host, default the -s | --server argument to this program
@@ -34,8 +35,6 @@ input filename is used certain values are copied to the output file. Those are:
  * case_sensitive, default Windows = false, others = true
  * ignore_patterns, default desktop.ini, Thumbs.db
 
-If this utility is being run on the same computer as Plex Media Server the hostname or IP address
-may be omitted, but :port is required, example:
-```
-  java -jar ELS-Plex-Generator.jar :32400 syMEox_DcT_4aIXfy3-J publisher.json
-```
+ 3. Using the -i option allows this program to be executed as part of an automated
+ procedure, such as before ELS is run on a schedule.
+ 
