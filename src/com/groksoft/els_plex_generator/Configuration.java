@@ -7,7 +7,7 @@ package com.groksoft.els_plex_generator;
  */
 public class Configuration
 {
-    private final String PROGRAM_VERSION = "1.0.0";
+    private final String PROGRAM_VERSION = "1.1.0";
     private String consoleLevel = "debug";  // Levels: ALL, TRACE, DEBUG, INFO, WARN, ERROR, FATAL, and OFF
     private String debugLevel = "info";
     private String inputFilename = "";
@@ -16,6 +16,11 @@ public class Configuration
     private String outputFilename = "";
     private String server = "";
     private String token = "";
+
+    public static final int RENAME_NONE = 0;
+    public static final int RENAME_FILES = 1;
+    public static final int RENAME_DIRECTORIES = 2;
+    public static final int RENAME_BOTH = 3;
 
     /**
      * Instantiates a new Configuration
@@ -130,6 +135,11 @@ public class Configuration
         this.outputFilename = outputFilename;
     }
 
+    public int getRenamingType()
+    {
+        return this.RENAME_BOTH;
+    }
+
     public String getServer()
     {
         return server;
@@ -165,6 +175,26 @@ public class Configuration
         System.out.println("Runtime example: ");
         System.out.println("  java -jar ELS-Plex-Generator.jar -s 192.168.2.1:32400 -t syMEox_DcT_4aIXfy3-J -o publisher.json");
         System.out.println("For the X-Plex-Token see https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/");
+    }
+
+    public boolean isCrossCheck()
+    {
+        return true;
+    }
+
+    public boolean isDryRun()
+    {
+        return false;
+    }
+
+    public boolean isSelectedLibrary(String name)
+    {
+        return true;
+    }
+
+    public boolean isSpecificLibrary()
+    {
+        return false;
     }
 
     /**

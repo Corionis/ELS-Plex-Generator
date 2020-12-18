@@ -1,5 +1,6 @@
 package com.groksoft.els_plex_generator;
 
+import com.groksoft.els_plex_generator.repository.Renaming;
 import com.groksoft.els_plex_generator.repository.Repository;
 import org.apache.hc.client5.http.ClientProtocolException;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
@@ -123,6 +124,24 @@ public class Main
                     "\t\t\t\"desktop.ini\"," + lineSep +
                     "\t\t\t\"Thumbs.db\"" + lineSep +
                     "\t\t]," + lineSep;
+        }
+
+        // add renaming
+        if (repo != null && repo.getLibraryData().libraries.renaming != null && repo.getLibraryData().libraries.renaming.length > 0)
+        {
+            json += "\t\t\"renaming\": [" + lineSep;
+            int c = 0;
+            for (Renaming rename : repo.getLibraryData().libraries.renaming)
+            {
+                if (c > 0)
+                    json += "," + lineSep;
+                json += "\t\t\t{" + lineSep;
+                json += "\t\t\t\t\"from\": \"" + rename.from + "\"," + lineSep;
+                json += "\t\t\t\t\"to\": \"" + rename.to + "\"," + lineSep;
+                json += "\t\t\t}";
+                ++c;
+            }
+            json += lineSep + "\t\t]," + lineSep;
         }
 
         return json;

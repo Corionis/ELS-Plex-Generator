@@ -8,6 +8,7 @@
       <root url="jar://$PROJECT_DIR$/lib/httpcore5-5.0.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.7.25.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/slf4j-jdk14-1.7.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/guava-30.0-jre.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

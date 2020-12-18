@@ -1,5 +1,6 @@
 package com.groksoft.els_plex_generator.repository;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.groksoft.els_plex_generator.Configuration;
@@ -8,6 +9,7 @@ import com.groksoft.els_plex_generator.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +17,9 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Vector;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -44,39 +48,11 @@ public class Repository
     }
 
     /**
-     * Dump collection.
-     */
-    public void dump()
-    {
-        System.out.println("  Libraries from " + getJsonFilename());
-        System.out.println("    Description: " + libraryData.libraries.description);
-        System.out.println("           Host: " + libraryData.libraries.host);
-        System.out.println("         Listen: " + libraryData.libraries.listen);
-        System.out.println("            Key: " + libraryData.libraries.key);
-        System.out.println("    Case-sensitive: " + libraryData.libraries.case_sensitive);
-        System.out.println("    Ignore patterns:");
-        for (String patt : libraryData.libraries.ignore_patterns)
-        {
-            System.out.println("      " + patt);
-        }
-        System.out.println("    Bibliography:");
-        for (Library lib : libraryData.libraries.bibliography)
-        {
-            System.out.println("      Name: " + lib.name);
-            System.out.println("      Sources:");
-            for (String src : lib.sources)
-            {
-                System.out.println("        " + src);
-            }
-        }
-    }
-
-    /**
-     * Export libraries to JSON.
+     * Export library items to JSON collection file.
      *
      * @throws MungerException the els exception
      */
-    public void exportCollection() throws MungerException
+    public void exportItems() throws MungerException
     {
         String json;
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -96,7 +72,7 @@ public class Repository
     }
 
     /**
-     * Export libraries to text.
+     * Export library items to text file.
      *
      * @throws MungerException the els exception
      */
@@ -109,13 +85,16 @@ public class Repository
             PrintWriter outputStream = new PrintWriter(cfg.getExportTextFilename());
             for (Library lib : libraryData.libraries.bibliography)
             {
-                for (Item item : lib.items)
+                if (!cfg.isSpecificLibrary() || cfg.isSelectedLibrary(lib.name))
                 {
-                    if (!item.isDirectory())
+                    for (Item item : lib.items)
                     {
-                        if (!ignore(item))
+                        if (!item.isDirectory())
                         {
-                            outputStream.println(item.getItemPath());
+                            if (!ignore(item))
+                            {
+                                outputStream.println(item.getItemPath());
+                            }
                         }
                     }
                 }
@@ -195,6 +174,28 @@ public class Repository
     }
 
     /**
+     * Gets an item collection from the itemMap hash map
+     */
+    private Collection getMapItem(Library lib, String itemPath) throws MungerException
+    {
+        Collection collection = null;
+        try
+        {
+            String key = itemPath;
+            if (!libraryData.libraries.case_sensitive)
+            {
+                key = key.toLowerCase();
+            }
+            collection = lib.itemMap.get(key);
+        }
+        catch (Exception e)
+        {
+            throw new MungerException("itemMap.get '" + itemPath + "' failed");
+        }
+        return collection;
+    }
+
+    /**
      * Get file separator
      *
      * @return File separator string single character
@@ -251,6 +252,7 @@ public class Repository
                 foundItem = null;
                 if (lib.items != null)
                 {
+                    // has to be a linear search because directories are not placed in the itemMap hash map
                     for (Item item : lib.items)
                     {
                         if (libraryData.libraries.case_sensitive)
@@ -288,45 +290,151 @@ public class Repository
     /**
      * Has specific item true/false.
      * <p>
-     * Does this Library have a particular item?
+     * String match is expected to have been converted to pipe character file separators using Utils.pipe().
+     * The item "has" member contains all instances including self.
      *
-     * @param libraryName the library name
-     * @param match       the match
+     * @param pubItem  the publisher item being found, for adding 'has' items
+     * @param itemPath the itemPath() of the item to find
      * @return the boolean
      */
-    public Item hasItem(String libraryName, String match) throws MungerException
+    public Item hasItem(Item pubItem, String itemPath) throws MungerException
     {
         Item has = null;
-        for (Library lib : libraryData.libraries.bibliography)
+
+        if (!pubItem.isDirectory())
         {
-            if (lib.name.equalsIgnoreCase(libraryName))
+            for (Library lib : libraryData.libraries.bibliography)
             {
-                for (Item item : lib.items)
+                if (cfg.isCrossCheck() || lib.name.equalsIgnoreCase(pubItem.getLibrary()))
                 {
-                    if (libraryData.libraries.case_sensitive)
+                    if (lib.itemMap != null)
                     {
-                        if (Utils.pipe(this, item.getItemPath()).equals(match))
+                        // hash map technique
+                        Collection collection = getMapItem(lib, itemPath);
+                        if (collection != null)
                         {
-                            has = item;
-                            break;
+                            Iterator it = collection.iterator();
+                            for (int i = 0; i < collection.size(); ++i)
+                            {
+                                Integer j = (Integer) it.next();
+                                Item item = lib.items.elementAt(j);
+                                if (!item.isDirectory())
+                                {
+                                    pubItem.addHas(item); // add match and any duplicate for cross-reference
+
+                                    // is it a duplicate?
+                                    if (has != null)
+                                    {
+                                        logger.warn("  ! Duplicate of \"" + itemPath + "\" found at \"" + item.getFullPath() + "\"");
+                                    }
+                                    else
+                                    {
+                                        has = item; // return first match
+                                    }
+                                }
+                            }
                         }
                     }
                     else
                     {
-                        if (Utils.pipe(this, item.getItemPath()).equalsIgnoreCase(match))
+                        throw new MungerException("itemMap is null for library " + lib.name);
+                    }
+                 }
+/*
+                // original linear search technique
+                for (Item item : lib.items)
+                {
+                    if (!item.isDirectory())
+                    {
+                        boolean match = (libraryData.libraries.case_sensitive) ?
+                                Utils.pipe(this, item.getItemPath()).equals(itemPath) :
+                                Utils.pipe(this, item.getItemPath()).equalsIgnoreCase(itemPath);
+
+                        if (match)
                         {
-                            has = item;
-                            break;
+                            pubItem.addHas(item); // add match and any duplicate for cross-reference
+
+                            // is it a duplicate?
+                            if (has != null)
+                            {
+                                logger.warn("  ! Duplicate of \"" + itemPath + "\" found at \"" + item.getFullPath() + "\"");
+                            }
+                            else
+                            {
+                                has = item; // return first match
+                            }
                         }
                     }
                 }
-                if (has != null)
-                {
-                    break;  // break outer loop also
-                }
+*/
             }
         }
+
         return has;
+    }
+
+    /**
+     * Has duplicate true/false.
+     * <p>
+     * String match is expected to have been converted to pipe character file separators using Utils.pipe().
+     * The item "has" member contains only duplicates and -not- self.
+     *
+     * @param pubItem  the publisher item being found, for adding 'has' items
+     * @param itemPath the itemPath() of the item to find
+     * @return the boolean
+     */
+    public void hasPublisherDuplicate(Item pubItem, String itemPath) throws MungerException
+    {
+        String key;
+        for (Library lib : libraryData.libraries.bibliography)
+        {
+            if (cfg.isCrossCheck() || lib.name.equalsIgnoreCase(pubItem.getLibrary()))
+            {
+                if (lib.itemMap != null)
+                {
+                    // hash map technique
+                    Collection collection = getMapItem(lib, itemPath);
+                    if (collection != null)
+                    {
+                        Iterator it = collection.iterator();
+                        for (int i = 0; i < collection.size(); ++i)
+                        {
+                            Integer j = (Integer) it.next();
+                            Item item = lib.items.elementAt(j);
+                            if (item != pubItem && !item.isDirectory())
+                            {
+                                pubItem.addHas(item); // add match and any duplicate for cross-reference
+                                logger.warn("  ! Duplicate of \"" + pubItem.getFullPath() + "\" found at \"" + item.getFullPath() + "\"");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    throw new MungerException("itemMap is null for library " + lib.name);
+                }
+
+/*
+                // original linear search technique
+                for (Item item : lib.items)
+                {
+                    // do not match self or directories
+                    if (item != pubItem && !item.isDirectory())
+                    {
+                        boolean match = (libraryData.libraries.case_sensitive) ?
+                                Utils.pipe(this, item.getItemPath()).equals(itemPath) :
+                                Utils.pipe(this, item.getItemPath()).equalsIgnoreCase(itemPath);
+
+                        if (match)
+                        {
+                            pubItem.addHas(item); // add match and any duplicate for cross-reference
+                            logger.warn("  ! Duplicate of \"" + pubItem.getFullPath() + "\" found at \"" + item.getFullPath() + "\"");
+                        }
+                    }
+                }
+*/
+            }
+        }
     }
 
     /**
@@ -371,7 +479,7 @@ public class Repository
     /**
      * Normalize all JSON paths based on "flavor"
      */
-    public void normalize()
+    public void normalize() throws MungerException
     {
         if (libraryData != null)
         {
@@ -409,10 +517,25 @@ public class Repository
                 }
                 if (lib.items != null)
                 {
-                    for (Item item : lib.items)
+                    // setup the hash map for this library
+                    if (lib.itemMap == null)
+                        lib.itemMap = ArrayListMultimap.create();
+                    else
+                        lib.itemMap.clear();
+
+                    for (int i = 0; i < lib.items.size(); ++i)
                     {
+                        Item item = lib.items.elementAt(i);
                         item.setItemPath(normalizeSubst(item.getItemPath(), from, to));
                         item.setFullPath(normalizeSubst(item.getFullPath(), from, to));
+
+                        // add itemPath & the item's index in the Vector to the hash map
+                        String key = item.getItemPath();
+                        if (!libraryData.libraries.case_sensitive)
+                        {
+                            key = key.toLowerCase();
+                        }
+                        lib.itemMap.put(Utils.pipe(this, key), i);
                     }
                 }
             }
@@ -462,11 +585,126 @@ public class Repository
             json = new String(Files.readAllBytes(Paths.get(filename)));
             libraryData = gson.fromJson(json, LibraryData.class);
             normalize();
+            logger.info("Read \"" + libraryData.libraries.description + "\" successfully");
         }
         catch (IOException ioe)
         {
             throw new MungerException("Exception while reading libraries " + filename + " trace: " + Utils.getStackTrace(ioe));
         }
+    }
+
+    /**
+     * Perform renaming on entire repository
+     */
+    public boolean renameContent() throws Exception
+    {
+        boolean renameDone = false;
+
+        // rename files first
+        if (cfg.getRenamingType() == cfg.RENAME_FILES || cfg.getRenamingType() == cfg.RENAME_BOTH)
+        {
+            if (renameItems(false))
+                renameDone = true;
+        }
+
+        // then rename directories
+        if (cfg.getRenamingType() == cfg.RENAME_DIRECTORIES || cfg.getRenamingType() == cfg.RENAME_BOTH)
+        {
+            if (renameItems(true))
+                renameDone = true;
+        }
+        return renameDone;
+    }
+
+    /**
+     * Perform renaming on either files or directories
+     */
+    private boolean renameItems(boolean directories) throws Exception
+    {
+        String from = "";
+        String fromFixed = "";
+        String name = "";
+        String old = "";
+        boolean renameDone = false;
+
+        for (Library pubLib : getLibraryData().libraries.bibliography)
+        {
+            if (!cfg.isSpecificLibrary() || cfg.isSelectedLibrary(pubLib.name))
+            {
+                for (Item item : pubLib.items)
+                {
+                    if ((!directories && !item.isDirectory()) || (directories && item.isDirectory()))
+                    {
+                        old = getItemName(item);
+                        name = old;
+
+                        // run through all the substitution patterns
+                        for (Renaming subst : libraryData.libraries.renaming)
+                        {
+                            if (subst.from.length() > 0 && subst.compiledPattern != null)
+                            {
+                                from = subst.compiledPattern.toString(); // precompiled 'from' during validate()
+                                fromFixed = from; //.replace("?", ".?").replace("*", ".*?");
+                                name = name.replaceAll(fromFixed, subst.to);
+                            }
+                        }
+
+                        // did the name change?
+                        if (!old.equals(name))
+                        {
+                            if (cfg.isDryRun())
+                            {
+                                logger.info("Would rename " + (item.isDirectory() ? "directory" : "file") +
+                                        ": '" + old + "' to '" + name + "'");
+                            }
+                            else
+                            {
+                                // replace the name on the end of the item and fullpath
+                                String path = item.getItemPath();
+                                path = path.substring(0, path.length() - old.length());
+                                path = path + name;
+
+                                String full = item.getFullPath();
+                                full = full.substring(0, full.length() - old.length());
+                                full = full + name;
+
+                                // do rename
+                                File existing = new File(item.getFullPath());
+                                File newFile = new File(full);
+                                existing.renameTo(newFile);
+
+                                // update data
+                                item.setItemPath(path);
+                                item.setFullPath(full);
+
+                                logger.info("Renamed " + (item.isDirectory() ? "directory" : "file") +
+                                        ": '" + old + "' to '" + name + "'");
+                            }
+                            renameDone = true;
+                        }
+                    }
+                }
+            }
+        }
+        return renameDone;
+    }
+
+    /**
+     * Scan all or libraries selected with -l.
+     *
+     * @throws Exception
+     */
+    public void scan() throws Exception
+    {
+        for (Library lib : getLibraryData().libraries.bibliography)
+        {
+            if (!cfg.isSpecificLibrary() || cfg.isSelectedLibrary(lib.name))
+            {
+                scanSources(lib);
+                sort(lib);
+            }
+        }
+        normalize();
     }
 
     /**
@@ -478,30 +716,26 @@ public class Repository
     {
         for (Library lib : libraryData.libraries.bibliography)
         {
-            if (libraryName.length() > 0)
+            if (libraryName.length() > 0 && libraryName.equalsIgnoreCase(lib.name))
             {
-                if (!libraryName.equalsIgnoreCase(lib.name))
-                    continue;
+                scanSources(lib);
+                sort(lib);
             }
-            logger.info("Scanning " + getLibraryData().libraries.description + ": " + lib.name);
-            for (String src : lib.sources)
-            {
-                logger.info("  " + src);
-                scanDirectory(lib, src, src);
-            }
-            sort(lib);
         }
         normalize();
     }
 
     /**
      * Scan a specific directory, recursively.
+     * <p>
+     * Used by the public scan methods.
      *
      * @param directory the directory
      * @throws MungerException the els exception
      */
-    private void scanDirectory(Library library, String base, String directory) throws MungerException
+    private int scanDirectory(Library library, String base, String directory) throws MungerException
     {
+        int count = 0;
         Item item = null;
         String fullPath = "";
         String itemPath = "";
@@ -512,13 +746,14 @@ public class Repository
 
         if (library.items == null)
         {
-            library.items = new ArrayList<>();
+            library.items = new Vector<>();
         }
 
         try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path))
         {
             for (Path entry : directoryStream)
             {
+                ++count;
                 item = new Item();
                 fullPath = entry.toString();                            // full path
                 item.setFullPath(fullPath);
@@ -533,16 +768,36 @@ public class Repository
                 item.setSymLink(isSym);
                 item.setLibrary(library.name);                          // the library name
                 library.items.add(item);
-                //logger.debug(entry.toString());
                 if (isDir)
                 {
-                    scanDirectory(library, base, item.getFullPath());
+                    // track item count in a directory item's size
+                    item.setSize(scanDirectory(library, base, item.getFullPath()));
                 }
             }
         }
         catch (IOException ioe)
         {
             throw new MungerException("Exception reading directory " + directory + " trace: " + Utils.getStackTrace(ioe));
+        }
+        return count;
+    }
+
+    /**
+     * Scan the sources of a library.
+     * <p>
+     * Used by the public scan methods.
+     *
+     * @param lib
+     * @throws MungerException
+     */
+    private void scanSources(Library lib) throws MungerException
+    {
+        logger.info("Scanning " + getLibraryData().libraries.description + ": " + lib.name);
+        lib.items = null;
+        for (String src : lib.sources)
+        {
+            logger.info("  " + src);
+            scanDirectory(lib, src, src);
         }
     }
 
@@ -554,6 +809,7 @@ public class Repository
         lib.items.sort((item1, item2) -> item1.getItemPath().compareToIgnoreCase(item2.getItemPath()));
     }
 
+
     /**
      * Validate LibraryData.
      *
@@ -561,8 +817,6 @@ public class Repository
      */
     public void validate() throws MungerException, Exception
     {
-        long minimumSize;
-
         if (libraryData == null)
         {
             throw new MungerException("Libraries are null");
@@ -583,24 +837,49 @@ public class Repository
             throw new MungerException("libraries.case_sensitive true/false must be defined");
         }
 
-        if (lbs.ignore_patterns.length > 0)
+        if (lbs.ignore_patterns != null && lbs.ignore_patterns.length > 0)
         {
             Pattern patt = null;
+            String src = null;
             try
             {
                 for (String s : lbs.ignore_patterns)
                 {
-                    patt = Pattern.compile(s);
+                    src = s;
+                    patt = Pattern.compile(src);
                     lbs.compiledPatterns.add(patt);
                 }
             }
             catch (PatternSyntaxException pe)
             {
-                throw new MungerException("Pattern " + patt + " has bad regular expression (regex) syntax");
+                throw new MungerException("Ignore pattern '" + src + "' has bad regular expression (regex) syntax");
             }
             catch (IllegalArgumentException iae)
             {
-                throw new MungerException("Pattern " + patt + " has bad flags");
+                throw new MungerException("Ignore pattern '" + src + "' has bad flags");
+            }
+        }
+
+        if (lbs.renaming != null && lbs.renaming.length > 0)
+        {
+            Pattern patt = null;
+            String src = null;
+            try
+            {
+                for (Renaming subst : lbs.renaming)
+                {
+                    src = subst.from;
+                    patt = Pattern.compile(src);
+                    subst.compiledPattern = patt;
+                }
+            }
+            catch (PatternSyntaxException pe)
+            {
+                throw new MungerException("Ignore pattern '" + src + "' has bad regular expression (regex) syntax");
+            }
+            catch (IllegalArgumentException iae)
+            {
+                throw new MungerException("Ignore pattern '" + src + "' has bad flags");
             }
         }
 
@@ -623,45 +902,47 @@ public class Repository
             }
             else
             {
-                logger.info("  library: " + lib.name +
-                        ", " + lib.sources.length + " sources" +
-                        (lib.items != null && lib.items.size() > 0 ? ", " + lib.items.size() + " items" : ""));
-                // validate sources paths
-                for (int j = 0; j < lib.sources.length; j++)
+                if (!cfg.isSpecificLibrary() || cfg.isSelectedLibrary(lib.name))
                 {
-                    if (lib.sources[j].length() == 0)
+                    logger.info("  library: " + lib.name +
+                            ", " + lib.sources.length + " sources" +
+                            (lib.items != null && lib.items.size() > 0 ? ", " + lib.items.size() + " items" : ""));
+                    // validate sources paths
+                    for (int j = 0; j < lib.sources.length; j++)
                     {
-                        throw new MungerException("bibliography[" + i + "].sources[" + j + "] must be defined");
-                    }
-                    if (Files.notExists(Paths.get(lib.sources[j])))
-                    {
-                        throw new MungerException("bibliography[" + i + "].sources[" + j + "]: " + lib.sources[j] + " does not exist");
-                    }
-                    logger.info("    src: " + lib.sources[j]);
-
-                    // validate item path
-                    if (lib.items != null && lib.items.size() > 0)
-                    {
-                        for (Item item : lib.items)
+                        if (lib.sources[j].length() == 0)
                         {
-                            if (Files.notExists(Paths.get(item.getFullPath())))
+                            throw new MungerException("bibliography[" + i + "].sources[" + j + "] must be defined");
+                        }
+                        if (Files.notExists(Paths.get(lib.sources[j])))
+                        {
+                            throw new MungerException("bibliography[" + i + "].sources[" + j + "]: " + lib.sources[j] + " does not exist");
+                        }
+                        logger.info("    src: " + lib.sources[j]);
+
+                        // validate item path
+                        if (lib.items != null && lib.items.size() > 0)
+                        {
+                            for (Item item : lib.items)
                             {
-                                logger.error("File does not exist: " + item.getFullPath());
-                            }
-                            else
-                            {
-                                if (!item.isDirectory() && Files.size(Paths.get(item.getFullPath())) != item.getSize())
+                                if (Files.notExists(Paths.get(item.getFullPath())))
                                 {
-                                    logger.error("File size does not match, file is " + Files.size(Paths.get(item.getFullPath())) + ", data has " + item.getSize() + ": " + item.getFullPath());
+                                    logger.error("File does not exist: " + item.getFullPath());
                                 }
-                            }
-                            if (!item.getLibrary().equals(lib.name))
-                            {
-                                logger.error("File library does not match, file is in " + lib.name + ", data has " + item.getLibrary() + ": " + item.getFullPath());
+                                else
+                                {
+                                    if (!item.isDirectory() && Files.size(Paths.get(item.getFullPath())) != item.getSize())
+                                    {
+                                        logger.error("File size does not match, file is " + Files.size(Paths.get(item.getFullPath())) + ", data has " + item.getSize() + ": " + item.getFullPath());
+                                    }
+                                }
+                                if (!item.getLibrary().equals(lib.name))
+                                {
+                                    logger.error("File library does not match, file is in " + lib.name + ", data has " + item.getLibrary() + ": " + item.getFullPath());
+                                }
                             }
                         }
                     }
-
                 }
             }
         }
