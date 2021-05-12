@@ -1,7 +1,5 @@
 package com.groksoft.els_plex_generator.repository;
 
-import com.google.common.collect.Multimap;
-
 import java.util.Vector;
 
 /**
@@ -12,7 +10,8 @@ public class Library
     /**
      * Transient hash map for item look-ups
      */
-    public transient Multimap<String, Integer> itemMap;
+//    public transient Multimap<String, Integer> itemMap;
+    public transient com.google.common.collect.ArrayListMultimap<String, Integer> itemMap;
     /**
      * One or more Items.
      */
@@ -25,5 +24,9 @@ public class Library
      * One or more Sources.
      */
     public String[] sources;
+
+    public Library()
+    {
+    }
 
 }

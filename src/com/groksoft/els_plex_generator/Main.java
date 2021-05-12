@@ -61,6 +61,8 @@ public class Main
     private String generateLocal() throws Exception
     {
         String value = "";
+        CharSequence singleBack = new StringBuffer("\\");
+        CharSequence doubleBack = new StringBuffer("\\\\");
 
         // generate host element
         if (repo != null && repo.getLibraryData().libraries.host != null)
@@ -113,6 +115,7 @@ public class Main
             {
                 if (c > 0)
                     json += "," + lineSep;
+                patt = patt.replace(singleBack, doubleBack);
                 json += "\t\t\t\"" + patt + "\"";
                 ++c;
             }
@@ -136,7 +139,9 @@ public class Main
                 if (c > 0)
                     json += "," + lineSep;
                 json += "\t\t\t{" + lineSep;
+                rename.from = rename.from.replace(singleBack, doubleBack);
                 json += "\t\t\t\t\"from\": \"" + rename.from + "\"," + lineSep;
+                rename.to = rename.to.replace(singleBack, doubleBack);
                 json += "\t\t\t\t\"to\": \"" + rename.to + "\"," + lineSep;
                 json += "\t\t\t}";
                 ++c;
@@ -426,7 +431,6 @@ public class Main
     {
         repo = new Repository(cfg);
         repo.read(filename);
-
     }
 
     private String roundTrip(String request)

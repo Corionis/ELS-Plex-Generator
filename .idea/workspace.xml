@@ -1,19 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="ELS-Plex-Generator:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="b96d0f18-0dd4-4b23-ba8e-97e5c88cb2ae" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/gson_2_8_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/gson_2_8_0.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Configuration.java" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Configuration.java" />
-      <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Main.java" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Main.java" />
-      <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Item.java" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Item.java" />
-      <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Libraries.java" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Libraries.java" />
-      <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Library.java" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Library.java" />
-      <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Repository.java" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Repository.java" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/checker_qual_3_8_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/error_prone_annotations_2_5_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/failureaccess_1_0_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/gson.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/guava_30_1_1_jre.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/httpclient5_5_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/httpcore5_5_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/j2objc_annotations_1_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/jsr305_3_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/log4j_api_2_8_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/log4j_core_2_8_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/slf4j_api_1_7_25.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/slf4j_jdk14_1_7_25.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gson-2.8.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guava-30.0-jre.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/checker-qual-3.8.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/error_prone_annotations-2.5.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/failureaccess-1.0.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/gson-2.8.6.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/guava-30.1.1-jre.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/j2objc-annotations-1.3.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/jsr305-3.0.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/run.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ELS_Plex_Generator_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/ELS_Plex_Generator_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/gson_2_8_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ELS-Plex-Generator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ELS-Plex-Generator.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deploy/ELS-Plex-Generator.jar" beforeDir="false" afterPath="$PROJECT_DIR$/deploy/ELS-Plex-Generator.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/gson-2.8.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/guava-30.0-jre.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Configuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Library.java" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/out/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,71 +48,6 @@
   </component>
   <component name="FavoritesManager">
     <favorites_list name="ELS-Plex-Generator" />
-  </component>
-  <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.76538694">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Main.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="331">
-                  <caret line="395" column="68" lean-forward="true" selection-start-line="395" selection-start-column="68" selection-end-line="395" selection-end-column="68" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Utils.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Utils.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="7038">
-                  <caret line="391" column="0" lean-forward="false" selection-start-line="391" selection-start-column="0" selection-end-line="391" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Configuration.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Configuration.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="162">
-                  <caret line="9" column="47" lean-forward="false" selection-start-line="9" selection-start-column="47" selection-end-line="9" selection-end-column="47" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Repository.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Repository.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="367">
-                  <caret line="658" column="29" lean-forward="true" selection-start-line="658" selection-start-column="29" selection-end-line="658" selection-end-column="29" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="command-line.md" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/artifacts/document/command-line.md">
-              <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-                <state split_layout="FIRST">
-                  <first_editor relative-caret-position="702">
-                    <caret line="39" column="1" lean-forward="false" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
-                    <folding />
-                  </first_editor>
-                  <second_editor />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -146,6 +108,7 @@
     <option name="width" value="1273" />
     <option name="height" value="664" />
   </component>
+  <component name="ProjectId" id="1sJHadkGsibDrNZ4P7xYBw74JjG" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -227,26 +190,20 @@
       </pane>
     </panes>
   </component>
-  <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/guava-30.0-jre.jar!/" />
-    <property name="settings.editor.selected.configurable" value="preferences.general" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/guava-30.1.1-jre.jar" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.25614488" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunManager" selected="Application.With input file">
     <configuration default="true" type="Applet" factoryName="Applet">
@@ -254,75 +211,6 @@
       <option name="HEIGHT" value="300" />
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <module />
-    </configuration>
-    <configuration name="Basic" type="Application" factoryName="Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.groksoft.els_plex_generator.Main" />
-      <option name="VM_PARAMETERS" value="-Dlog4j.configurationFile=file:lib/log4j2.xml" />
-      <option name="PROGRAM_PARAMETERS" value="-s rockplex:32400 -t rvMDoz_CbS_9sLxfy6-V -o els-plex-generator-output.json" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="ELS-Plex-Generator" />
-      <envs />
-    </configuration>
-    <configuration name="With input file" type="Application" factoryName="Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.groksoft.els_plex_generator.Main" />
-      <option name="VM_PARAMETERS" value="-Dlog4j.configurationFile=file:lib/log4j2.xml" />
-      <option name="PROGRAM_PARAMETERS" value="-s rockplex:32400 -t rvMDoz_CbS_9sLxfy6-V -o els-plex-generator-output.json -i els-plex-input.json" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="ELS-Plex-Generator" />
-      <envs />
-    </configuration>
-    <configuration default="true" type="Application" factoryName="Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
-    </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-    </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
@@ -359,14 +247,48 @@
       <predefined_log_file id="idea.log" enabled="true" />
       <method />
     </configuration>
-    <list size="2">
-      <item index="0" class="java.lang.String" itemvalue="Application.Basic" />
-      <item index="1" class="java.lang.String" itemvalue="Application.With input file" />
+    <configuration name="Basic" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.groksoft.els_plex_generator.Main" />
+      <module name="ELS-Plex-Generator" />
+      <option name="PROGRAM_PARAMETERS" value="-s rockplex:32400 -t rvMDoz_CbS_9sLxfy6-V -o els-plex-generator-output.json" />
+      <option name="VM_PARAMETERS" value="-Dlog4j.configurationFile=file:lib/log4j2.xml" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="With input file" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.groksoft.els_plex_generator.Main" />
+      <module name="ELS-Plex-Generator" />
+      <option name="PROGRAM_PARAMETERS" value="-s rockplex:32400 -t ugCwcN9-8hXA5MDhksAy -o els-plex-generator-output.json -i publisher.json" />
+      <option name="VM_PARAMETERS" value="-Dlog4j.configurationFile=file:lib/log4j2.xml" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Basic" />
+      <item itemvalue="Application.With input file" />
     </list>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
-  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="StructureViewFactory">
     <option name="AUTOSCROLL_FROM_SOURCE" value="true" />
     <option name="ACTIVE_ACTIONS" value=",ALPHA_COMPARATOR" />
@@ -387,6 +309,8 @@
       <workItem from="1601760092158" duration="12814000" />
       <workItem from="1601831504616" duration="2006000" />
       <workItem from="1608313162150" duration="3268000" />
+      <workItem from="1620583841044" duration="10313000" />
+      <workItem from="1620845431461" duration="3965000" />
     </task>
     <servers />
   </component>
@@ -446,16 +370,11 @@
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <option name="time" value="23" />
-    </breakpoint-manager>
-    <watches-manager />
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Main.java">
