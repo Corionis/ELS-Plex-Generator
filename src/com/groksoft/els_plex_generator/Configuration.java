@@ -7,7 +7,7 @@ package com.groksoft.els_plex_generator;
  */
 public class Configuration
 {
-    private final String PROGRAM_VERSION = "1.2.0";
+    private final String PROGRAM_VERSION = "2.0.0";
     private String consoleLevel = "debug";  // Levels: ALL, TRACE, DEBUG, INFO, WARN, ERROR, FATAL, and OFF
     private String debugLevel = "info";
     private String inputFilename = "";
