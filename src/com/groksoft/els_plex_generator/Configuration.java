@@ -7,7 +7,7 @@ package com.groksoft.els_plex_generator;
  */
 public class Configuration
 {
-    private final String PROGRAM_VERSION = "2.0.0";
+    private final String PROGRAM_VERSION = "3.0.0";
     private String consoleLevel = "debug";  // Levels: ALL, TRACE, DEBUG, INFO, WARN, ERROR, FATAL, and OFF
     private String debugLevel = "info";
     private String inputFilename = "";
@@ -197,15 +197,25 @@ public class Configuration
         return false;
     }
 
+    public boolean isSpecificExclude()
+    {
+        return false;
+    }
+
+    public boolean isExcludedLibrary(String name)
+    {
+        return false;
+    }
+
     /**
      * Parse command line
      * <p>
      * This populates the rest.
      *
      * @param args the args
-     * @throws MungerException the els exception
+     * @throws MungeException the els exception
      */
-    public void parseCommandLine(String[] args) throws MungerException
+    public void parseCommandLine(String[] args) throws MungeException
     {
         int index;
         originalArgs = args;
@@ -223,7 +233,7 @@ public class Configuration
                     }
                     else
                     {
-                        throw new MungerException("Error: -c requires a level, trace, debug, info, warn, error, fatal, or off");
+                        throw new MungeException("Error: -c requires a level, trace, debug, info, warn, error, fatal, or off");
                     }
                     break;
                 case "-d":                                             // debug level
@@ -235,7 +245,7 @@ public class Configuration
                     }
                     else
                     {
-                        throw new MungerException("Error: -d requires a level, trace, debug, info, warn, error, fatal, or off");
+                        throw new MungeException("Error: -d requires a level, trace, debug, info, warn, error, fatal, or off");
                     }
                     break;
                 case "-f":                                             // log filename
@@ -247,7 +257,7 @@ public class Configuration
                     }
                     else
                     {
-                        throw new MungerException("Error: -f requires a log filename");
+                        throw new MungeException("Error: -f requires a log filename");
                     }
                     break;
                 case "-i":                                             // input filename
@@ -259,7 +269,7 @@ public class Configuration
                     }
                     else
                     {
-                        throw new MungerException("Error: -i requires an input filename");
+                        throw new MungeException("Error: -i requires an input filename");
                     }
                     break;
                 case "-o":                                             // output filename
@@ -271,7 +281,7 @@ public class Configuration
                     }
                     else
                     {
-                        throw new MungerException("Error: -o requires an output filename");
+                        throw new MungeException("Error: -o requires an output filename");
                     }
                     break;
                 case "-s":                                             // server:port
@@ -283,7 +293,7 @@ public class Configuration
                     }
                     else
                     {
-                        throw new MungerException("Error: -s requires a server:port");
+                        throw new MungeException("Error: -s requires a server:port");
                     }
                     break;
                 case "-t":                                             // authentication token
@@ -295,7 +305,7 @@ public class Configuration
                     }
                     else
                     {
-                        throw new MungerException("Error: -t requires an authentication token");
+                        throw new MungeException("Error: -t requires an authentication token");
                     }
                     break;
                 case "-h":
@@ -304,18 +314,18 @@ public class Configuration
                     System.exit(1);
                     break;
                 default:
-                    throw new MungerException("Error: unknown option " + args[index]);
+                    throw new MungeException("Error: unknown option " + args[index]);
             }
         }
 
         if (getServer().length() < 1)
-            throw new MungerException("-s server:port required for Plex Media Server");
+            throw new MungeException("-s server:port required for Plex Media Server");
 
         if (getToken().length() < 1)
-            throw new MungerException("-t token required for Plex Media Server X-Plex-Token");
+            throw new MungeException("-t token required for Plex Media Server X-Plex-Token");
 
         if (getOutputFilename().length() < 1)
-            throw new MungerException("-o output filename required");
+            throw new MungeException("-o output filename required");
 
         if (logFilename.length() < 1)
         {

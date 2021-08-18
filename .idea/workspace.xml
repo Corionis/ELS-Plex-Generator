@@ -7,11 +7,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b96d0f18-0dd4-4b23-ba8e-97e5c88cb2ae" name="Default" comment="Version 2.0.0">
-      <change afterPath="$PROJECT_DIR$/run.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Location.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deploy/ELS-Plex-Generator.jar" beforeDir="false" afterPath="$PROJECT_DIR$/deploy/ELS-Plex-Generator.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/artifacts/document/command-line.md" beforeDir="false" afterPath="$PROJECT_DIR$/artifacts/document/command-line.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/artifacts/document/downloads.md" beforeDir="false" afterPath="$PROJECT_DIR$/artifacts/document/downloads.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Configuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/MungerException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/MungeException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Libraries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Libraries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Library.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/groksoft/els_plex_generator/repository/Repository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +184,7 @@
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.25614488" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
   </component>
   <component name="RunManager" selected="Application.With input file">
     <configuration default="true" type="Applet" factoryName="Applet">
@@ -283,6 +292,8 @@
       <workItem from="1608313162150" duration="3268000" />
       <workItem from="1620583841044" duration="10313000" />
       <workItem from="1620845431461" duration="4493000" />
+      <workItem from="1620864287122" duration="324000" />
+      <workItem from="1629308195576" duration="4271000" />
     </task>
     <task id="LOCAL-00001" summary="Version 2.0.0">
       <created>1620863877266</created>
@@ -291,7 +302,14 @@
       <option name="project" value="LOCAL" />
       <updated>1620863877266</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Version 2.0.0">
+      <created>1620864489480</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1620864489480</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">

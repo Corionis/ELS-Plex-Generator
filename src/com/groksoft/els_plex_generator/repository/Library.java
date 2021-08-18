@@ -1,5 +1,7 @@
 package com.groksoft.els_plex_generator.repository;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import java.util.Vector;
 
 /**
@@ -9,24 +11,28 @@ public class Library
 {
     /**
      * Transient hash map for item look-ups
+     * @see <a href="https://guava.dev/releases/snapshot-jre/api/docs/com/google/common/collect/ArrayListMultimap.html">ArrayListMultimap class API doc</a>
      */
-//    public transient Multimap<String, Integer> itemMap;
-    public transient com.google.common.collect.ArrayListMultimap<String, Integer> itemMap;
+    public transient ArrayListMultimap<String, Integer> itemMap;
+
     /**
-     * One or more Items.
+     * Library has been altered, transient
      */
-    public Vector<Item> items;
+    public transient boolean rescanNeeded = false;
+
     /**
      * The library Name.
      */
     public String name;
+
     /**
      * One or more Sources.
      */
     public String[] sources;
 
-    public Library()
-    {
-    }
+    /**
+     * One or more Items. Last member so name appears first in data.
+     */
+    public Vector<Item> items;
 
 }

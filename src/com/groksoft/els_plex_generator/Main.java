@@ -1,5 +1,6 @@
 package com.groksoft.els_plex_generator;
 
+import com.groksoft.els_plex_generator.repository.Location;
 import com.groksoft.els_plex_generator.repository.Renaming;
 import com.groksoft.els_plex_generator.repository.Repository;
 import org.apache.hc.client5.http.ClientProtocolException;
@@ -142,7 +143,26 @@ public class Main
                 rename.from = rename.from.replace(singleBack, doubleBack);
                 json += "\t\t\t\t\"from\": \"" + rename.from + "\"," + lineSep;
                 rename.to = rename.to.replace(singleBack, doubleBack);
-                json += "\t\t\t\t\"to\": \"" + rename.to + "\"," + lineSep;
+                json += "\t\t\t\t\"to\": \"" + rename.to + "\"" + lineSep;
+                json += "\t\t\t}";
+                ++c;
+            }
+            json += lineSep + "\t\t]," + lineSep;
+        }
+
+        // add locations
+        if (repo != null && repo.getLibraryData().libraries.locations != null && repo.getLibraryData().libraries.locations.length > 0)
+        {
+            json += "\t\t\"locations\": [" + lineSep;
+            int c = 0;
+            for (Location loc : repo.getLibraryData().libraries.locations)
+            {
+                if (c > 0)
+                    json += "," + lineSep;
+                json += "\t\t\t{" + lineSep;
+                loc.location = loc.location.replace(singleBack, doubleBack);
+                json += "\t\t\t\t\"location\": \"" + loc.location + "\"," + lineSep;
+                json += "\t\t\t\t\"minimum\": \"" + loc.minimum + "\"" + lineSep;
                 json += "\t\t\t}";
                 ++c;
             }

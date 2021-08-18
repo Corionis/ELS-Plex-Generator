@@ -1,7 +1,6 @@
 ELS-Plex-Generator is an add-on tool for Entertainment Library Synchronizer (ELS),
 available at [https://github.com/GrokSoft/ELS](https://github.com/GrokSoft/ELS), that generates the publisher library
-JSON file required for ELS by querying a Plex Media Server for metadata and library source
-definitions.
+JSON file required for ELS by querying a Plex Media Server for metadata and library source definitions.
 
 ## Command Line Options
 ELS-Plex-Generator requires 3 arguments.
@@ -34,6 +33,8 @@ input filename is used certain values are copied to the output file. Those are:
  * key, default generated UUID on every run of this program
  * case_sensitive, default Windows = false, others = true
  * ignore_patterns, default desktop.ini, Thumbs.db
+ * renames, if present, no default
+ * locations, if present, no default
 
  3. Using the -i option allows this program to be executed as part of an automated
  procedure, such as before ELS is run on a schedule.
