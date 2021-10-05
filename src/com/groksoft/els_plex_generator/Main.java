@@ -29,7 +29,7 @@ import java.util.Enumeration;
 import java.util.UUID;
 
 /**
- * Main ELS program
+ * Main ELS Plex Generator program
  */
 public class Main
 {

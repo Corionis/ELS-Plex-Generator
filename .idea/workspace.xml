@@ -6,7 +6,9 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b96d0f18-0dd4-4b23-ba8e-97e5c88cb2ae" name="Default" comment="" />
+    <list default="true" id="b96d0f18-0dd4-4b23-ba8e-97e5c88cb2ae" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -48,6 +50,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="5e8ae4f9-e298-4ccb-8092-3d4232032c7d" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -279,6 +284,9 @@
       <workItem from="1620845431461" duration="4493000" />
       <workItem from="1620864287122" duration="324000" />
       <workItem from="1629308195576" duration="4804000" />
+      <workItem from="1629387059238" duration="761000" />
+      <workItem from="1632676668027" duration="153000" />
+      <workItem from="1633119589447" duration="512000" />
     </task>
     <task id="LOCAL-00001" summary="Version 2.0.0">
       <created>1620863877266</created>
@@ -301,7 +309,14 @@
       <option name="project" value="LOCAL" />
       <updated>1629322031725</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Version 3.0.0">
+      <created>1629387082768</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1629387082768</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
