@@ -11,7 +11,7 @@ ELS-Plex-Generator is distributed as a single Java jar file.
 Any software downloaded from this site is free and without warranty or guarantee of any kind expressed or implied. The software may not work or serve any intended or particular purpose. Use at your own risk. If you break it you own both parts.
 
 # Downloads
-The current version of ELS-Plex-Generator is: **3.0.0.**
+The current version of ELS-Plex-Generator is: **4.0.0.**
 
  * Latest build, software only: [ELS-Plex-Generator.jar](../blob/master/deploy/ELS-Plex-Generator.jar?raw=true)
 

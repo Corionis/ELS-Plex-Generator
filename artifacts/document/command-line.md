@@ -1,5 +1,5 @@
 ELS-Plex-Generator is an add-on tool for Entertainment Library Synchronizer (ELS),
-available at [https://github.com/GrokSoft/ELS](https://github.com/GrokSoft/ELS), that generates the publisher library
+available at [https://github.com/Corionis/ELS](https://github.com/Corionis/ELS), that generates the publisher library
 JSON file required for ELS by querying a Plex Media Server for metadata and library source definitions.
 
 ## Command Line Options
